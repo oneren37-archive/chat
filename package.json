@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "simple model of chat",
   "scripts": {
+    "build:server": "echo \"bulding server\"",
+    "build:client": "echo \"bulding client\"",
+    "heroku-prebuild": "cd ./server && npm ci && cd ..",
+    "build": "npm run build:server && npm run build:client",
+    "start": "node ./server/index.js",
     "linters": "npx eslint ./**"
   },
   "repository": {
