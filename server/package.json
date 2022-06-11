@@ -1,0 +1,7 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "chat server on NodeJS",
+  "author": "oneren",
+  "license": "ISC"
+}
