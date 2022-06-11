@@ -3,5 +3,16 @@
   "version": "1.0.0",
   "description": "chat server on NodeJS",
   "author": "oneren",
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
 }
