@@ -27,10 +27,10 @@ export class AuthService implements IAuthService {
       password: passwordHashed,
     });
 
-    return 'User created';
+    return AuthService.generateToken({ login });
   }
 
-  public async Login(loginData): Promise<any> {
+  public async Login(loginData): Promise<string> {
     const { login, password } = loginData;
     const userRecord = await this.um.find(login);
     if (!userRecord) throw new Error('User not found');
@@ -39,15 +39,10 @@ export class AuthService implements IAuthService {
       userRecord.password,
     );
     if (!correctPassword) throw new Error('Incorrect password');
-    return {
-      user: {
-        login: userRecord.login,
-      },
-      token: AuthService.generateToken(userRecord),
-    };
+    return AuthService.generateToken(userRecord);
   }
 
-  private static generateToken(user) {
+  private static generateToken(user): string {
     const data = {
       login: user.login,
     };
