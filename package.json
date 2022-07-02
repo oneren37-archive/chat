@@ -8,7 +8,7 @@
   "scripts": {
     "heroku-prebuild": "cd ./server && npm ci --also=dev && cd ..",
     "build:server": "cd ./server && npm run build && cd ..",
-    "build:client": "echo \"bulding client\"",
+    "build:client": "cd ./client && npm run build && cd ..",
     "build": "npm run build:server && npm run build:client",
     "start": "node ./server/build/main.bundle.js",
     "linters": "npx eslint ./**"

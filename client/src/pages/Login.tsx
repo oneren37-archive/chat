@@ -9,28 +9,80 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { HTTPErrorCatcher } from '../utils/HTTPErrorCatcher';
 
 const theme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
+
+  const [formError, setFormError] = useState(false);
+  const [errorText, setErrorText] = useState('');
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
-    // fetch('/api/sign-in', {
-    //     method: 'POST',
-    //     body: JSON.stringify({
-    //
-    //     }),
-    //     headers: { 'Content-Type': 'application/json' },
-    // })
-    //     .then(res => res.json())
-    //     .then(json => setUser(json.user))
-    // console.log({
-    //     email: data.get('email'),
-    //     password: data.get('password'),
-    // });
+    fetch('/api/sign-in', {
+      method: 'POST',
+      body: JSON.stringify({
+        login: data.get('login'),
+        password: data.get('password'),
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(HTTPErrorCatcher)
+      .then(() => navigate('/'))
+      .catch((e) => {
+        try {
+          const errorData = JSON.parse(e.message);
+          if (errorData.code === 1) {
+            setErrorText('Неверный логин или пароль');
+          } else if (errorData.code === null) setErrorText('Сервак лежит');
+        } catch (e) {
+          setErrorText('Произошла неизвестная ошибка');
+        } finally {
+          setFormError(true);
+          console.log(errorText);
+        }
+      });
   };
+
+  // const [ formError, setFormError ] = useState(false);
+  // const [ errorText, setErrorText ] = useState('');
+  //
+  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //     event.preventDefault();
+  //     const data = new FormData(event.currentTarget);
+  //     fetch('/api/sign-up', {
+  //         method: 'POST',
+  //         body: JSON.stringify({
+  //             firstName: data.get('firstName'),
+  //             lastName: data.get('lastName'),
+  //             login: data.get('login'),
+  //             email: data.get('email'),
+  //             password: data.get('password'),
+  //         }),
+  //         headers: { 'Content-Type': 'application/json' },
+  //     })
+  //         .then(HTTPErrorCatcher)
+  //         .then(() => navigate('/'))
+  //         .catch(e => {
+  //             try {
+  //                 const errorData = JSON.parse(e.message)
+  //                 if (errorData.code === 1 && errorData.subCode === 3) {
+  //                     setErrorText('Такой пользователь уже зарегистрирован')
+  //                 }
+  //                 else if (errorData.code === null) setErrorText('Сервак лежит')
+  //             } catch (e) {
+  //                 setErrorText('Произошла неизвестная ошибка')
+  //             }
+  //             finally {
+  //                 setFormError(true)
+  //             }
+  //         });
+  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -60,11 +112,13 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="login"
+              label="Login"
+              name="login"
+              autoComplete="login"
               autoFocus
+              error={formError}
+              onChange={() => setFormError(false)}
             />
             <TextField
               margin="normal"
@@ -75,6 +129,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              error={formError}
+              onChange={() => setFormError(false)}
             />
             <Button
               type="submit"
@@ -87,6 +143,7 @@ export default function SignIn() {
             <Link href="#" variant="body2">
               {"Don't have an account? Sign Up"}
             </Link>
+            <p>{formError ? errorText : ''}</p>
           </Box>
         </Box>
       </Container>

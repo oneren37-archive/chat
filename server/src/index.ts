@@ -1,16 +1,25 @@
+import * as path from 'path';
 import { SignUpEndpoint } from './api/SignUpEndpoint';
 import { SignInEndpoint } from './api/SignInEndpoint';
-import isAuth from './middlewares/isAuth';
+import { AuthEndpoint } from './api/AuthEndpoint';
+
+const cookieParser = require('cookie-parser');
 
 const express = require('express');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
 
-app.get('/', isAuth, (req, res) => {
-  res.send("IT'S WORKING");
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.static(path.resolve(`${__dirname}../../../client/build/`)));
+
+app.post('/api/sign-up', SignUpEndpoint);
+app.post('/api/sign-in', SignInEndpoint);
+app.get('/api/is-auth', AuthEndpoint);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(`${__dirname}../../../client/build/index.html`));
 });
-app.post('api/sign-up', SignUpEndpoint.handler);
-app.post('api/sign-in', SignInEndpoint.handler);
 
 app.listen(PORT, () => console.log('сервер запустился'));

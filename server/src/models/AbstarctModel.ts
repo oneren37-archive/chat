@@ -1,7 +1,9 @@
+import { DB } from '../tools/db';
+
 export abstract class AbstractModel {
   protected DB;
 
-  constructor() {
-    this.DB = global.DB;
+  protected constructor() {
+    this.DB = new DB();
   }
 }

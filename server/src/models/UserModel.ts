@@ -17,6 +17,11 @@ export interface IUserModel {
 }
 
 export class UserModel extends AbstractModel implements IUserModel {
+  constructor() {
+    console.log('конструктор модели пользователя');
+    super();
+  }
+
   public async find(key: userKey): Promise<userData> {
     return this.DB.execute(`select * from user where login="${key}"`).then(
       (res) => res.results[0],

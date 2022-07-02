@@ -11,16 +11,16 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { HTTPErrorCatcher } from '../utils/HTTPErrorCatcher';
 
 const theme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
 
-  const handleErrors = (response: { status: string }) => {
-    if (response.status !== 'ok') throw new Error(response.status);
-    return response;
-  };
+  const [formError, setFormError] = useState(false);
+  const [errorText, setErrorText] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -36,10 +36,20 @@ export default function SignUp() {
       }),
       headers: { 'Content-Type': 'application/json' },
     })
-      .then((res) => res.json())
-      .then(handleErrors)
+      .then(HTTPErrorCatcher)
       .then(() => navigate('/'))
-      .catch((e) => console.log({ e }));
+      .catch((e) => {
+        try {
+          const errorData = JSON.parse(e.message);
+          if (errorData.code === 1 && errorData.subCode === 3) {
+            setErrorText('Такой пользователь уже зарегистрирован');
+          } else if (errorData.code === null) setErrorText('Сервак лежит');
+        } catch (e) {
+          setErrorText('Произошла неизвестная ошибка');
+        } finally {
+          setFormError(true);
+        }
+      });
   };
 
   return (
@@ -96,6 +106,12 @@ export default function SignUp() {
                   label="Login"
                   name="login"
                   autoComplete="login"
+                  error={formError}
+                  helperText={errorText}
+                  onChange={() => {
+                    setFormError(false);
+                    setErrorText('');
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>

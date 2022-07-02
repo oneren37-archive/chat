@@ -5,24 +5,31 @@ interface IDB {
 }
 
 export class DB implements IDB {
-  private host: string = 'us-cdbr-east-05.cleardb.net';
-
-  private user: string = 'b5e7cddb5b68b0';
-
-  private password: string = 'd2afb4dd';
-
-  private database: string = 'heroku_32b6c811e1dfdc1';
-
   private connection;
 
-  constructor() {
-    this.connection = mysql.createConnection({
-      host: this.host,
-      user: this.user,
-      password: this.password,
-      database: this.database,
+  private config = {
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b5e7cddb5b68b0',
+    password: 'd2afb4dd',
+    database: 'heroku_32b6c811e1dfdc1',
+  };
+
+  private autoConnect() {
+    this.connection = mysql.createConnection(this.config);
+
+    this.connection.connect((err) => {
+      if (err) {
+        setTimeout(this.autoConnect, 2000);
+      }
     });
-    this.connection.connect();
+
+    this.connection.on('error', (err) => {
+      if (err.code === 'PROTOCOL_CONNECTION_LOST') this.autoConnect();
+    });
+  }
+
+  constructor() {
+    this.autoConnect();
   }
 
   public execute(query: string): any {
