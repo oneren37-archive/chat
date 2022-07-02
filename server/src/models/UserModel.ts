@@ -3,17 +3,17 @@ import { AbstractModel } from './AbstarctModel';
 export type userKey = string;
 
 export type userData = {
-  firstName: string;
-  lastName: string;
-  login: string;
-  email: string;
-  password: string;
+    firstName: string;
+    lastName: string;
+    login: string;
+    email: string;
+    password: string;
 };
 
 export interface IUserModel {
-  find(key: userKey): Promise<userData>;
-  create(data: userData): Promise<any>;
-  get(key: userKey): Promise<userData>;
+    find(key: userKey): Promise<userData>;
+    create(data: userData): Promise<any>;
+    get(key: userKey): Promise<userData>;
 }
 
 export class UserModel extends AbstractModel implements IUserModel {

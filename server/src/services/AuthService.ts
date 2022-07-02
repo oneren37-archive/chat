@@ -5,8 +5,8 @@ import { comparePassword, cryptPassword } from '../tools/hash-passwords';
 import { AuthError } from '../tools/ErrorHandlers';
 
 export interface IAuthService {
-  SignUp(data: userData): Promise<string>;
-  Login(loginData): Promise<any>;
+    SignUp(data: userData): Promise<string>;
+    Login(loginData): Promise<any>;
 }
 
 export class AuthService implements IAuthService {

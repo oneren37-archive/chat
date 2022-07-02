@@ -1,8 +1,8 @@
 import { AuthService } from '../services/AuthService';
 
 type ReqBody = {
-  login: string;
-  password: string;
+    login: string;
+    password: string;
 };
 
 export function SignInEndpoint(req, res): void {

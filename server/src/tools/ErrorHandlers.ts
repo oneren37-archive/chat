@@ -2,10 +2,10 @@
 /* eslint no-param-reassign: 0 */
 
 export type ErrorData = {
-  code: number;
-  subCode: number;
-  name: string;
-  message: string;
+    code: number;
+    subCode: number;
+    name: string;
+    message: string;
 };
 
 export abstract class ChatError extends Error {

@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 
 interface IDB {
-  execute(query: string): Promise<any>;
+    execute(query: string): Promise<any>;
 }
 
 export class DB implements IDB {

@@ -1,43 +1,43 @@
 {
-  "name": "chat",
-  "version": "1.0.0",
-  "description": "simple model of chat",
-  "engines": {
-    "node": "14.x"
-  },
-  "scripts": {
-    "heroku-prebuild": "cd ./server && npm ci --also=dev && cd ..",
-    "build:server": "cd ./server && npm run build && cd ..",
-    "build:client": "cd ./client && npm run build && cd ..",
-    "build": "npm run build:server && npm run build:client",
-    "start": "node ./server/build/main.bundle.js",
-    "linters": "npx eslint ./**"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/oneren37/chat.git"
-  },
-  "author": "oneren",
-  "license": "ISC",
-  "homepage": "https://github.com/oneren37/chat#readme",
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.28.0",
-    "@typescript-eslint/parser": "^5.28.0",
-    "eslint": "^8.2.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.1",
-    "prettier": "^2.6.2",
-    "typescript": "^4.7.3"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "prettier --write",
-      "eslint --fix"
-    ]
-  }
+    "name": "chat",
+    "version": "1.0.0",
+    "description": "simple model of chat",
+    "engines": {
+        "node": "14.x"
+    },
+    "scripts": {
+        "heroku-prebuild": "cd ./server && npm ci --also=dev && cd ..",
+        "build:server": "cd ./server && npm run build && cd ..",
+        "build:client": "cd ./client && npm run build && cd ..",
+        "build": "npm run build:server && npm run build:client",
+        "start": "node ./server/build/main.bundle.js",
+        "linters": "npx eslint ./**"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/oneren37/chat.git"
+    },
+    "author": "oneren",
+    "license": "ISC",
+    "homepage": "https://github.com/oneren37/chat#readme",
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.28.0",
+        "@typescript-eslint/parser": "^5.28.0",
+        "eslint": "^8.2.0",
+        "eslint-config-airbnb": "^19.0.4",
+        "eslint-plugin-import": "^2.25.3",
+        "eslint-plugin-jsx-a11y": "^6.5.1",
+        "eslint-plugin-react": "^7.28.0",
+        "eslint-plugin-react-hooks": "^4.3.0",
+        "husky": "^8.0.1",
+        "lint-staged": "^13.0.1",
+        "prettier": "^2.6.2",
+        "typescript": "^4.7.3"
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx}": [
+            "prettier --write",
+            "eslint --fix"
+        ]
+    }
 }
