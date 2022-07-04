@@ -16,8 +16,6 @@ export function SignUpEndpoint(req, res): void {
     .then((token) => res
       .status(200)
       .cookie('jwt', token, {
-        httpOnly: true,
-        secure: true,
         maxAge: 3600,
       })
       .redirect('/'))
