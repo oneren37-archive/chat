@@ -1,14 +1,37 @@
 import { Navigate } from 'react-router-dom';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth';
 
-const PrivateRoute = ({ children }: any) => {
-    const { token } = useAuth();
+const PrivateRoute = (props: any) => {
+    const [loading, setLoading] = useState<boolean>(true);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-    if (!token) {
-        return <Navigate to="/login" replace />;
-    }
+    const auth = useAuth();
 
-    return children;
+    useEffect(() => {
+        const checkAuth = async () => {
+            setLoading(true);
+            const userData = await fetch('/api/is-auth').then((res) =>
+                res.json(),
+            );
+            setLoading(false);
+            auth.setUserData(userData || null);
+            setIsAuthenticated(!!userData);
+        };
+        checkAuth();
+    }, []);
+
+    return (
+        <>
+            {isAuthenticated ? (
+                props.children
+            ) : loading ? (
+                <div>LOADING...</div>
+            ) : (
+                <Navigate to="/login" replace />
+            )}
+        </>
+    );
 };
 
 export default PrivateRoute;

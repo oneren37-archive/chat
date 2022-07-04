@@ -13,9 +13,7 @@ export function SignInEndpoint(req, res): void {
     .then((token) => res
       .status(200)
       .cookie('jwt', token, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 3600,
+        maxAge: 1000 * 60 * 2,
       })
       .redirect('/'))
     .catch((e) => res.status(e.code).json(e.data ? e.data : 'Unknown error'));
